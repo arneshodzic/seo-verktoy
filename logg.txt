@@ -1,0 +1,2 @@
+# Publiseringslogg — seo-verktoy-botten
+# Format: dato | verktøy | status | URL

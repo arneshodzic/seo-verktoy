@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilkostnadskalkulator – hva koster bilen din per måned? | Nettverktøy</title>
+<meta name="description" content="Gratis kalkulator for totale bilkostnader i Norge: forsikring, drivstoff, årsavgift, bom, vedlikehold og verditap. Se kostnad per måned og per km med én gang.">
+<link rel="canonical" href="https://arneshodzic.github.io/seo-verktoy/verktoy/bilkostnadskalkulator/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Bilkostnadskalkulator","url":"https://arneshodzic.github.io/seo-verktoy/verktoy/bilkostnadskalkulator/","applicationCategory":"FinanceApplication","operatingSystem":"Nettleser","offers":{"@type":"Offer","price":"0","priceCurrency":"NOK"},"inLanguage":"nb-NO"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Hva koster det å ha bil per måned i Norge?","acceptedAnswer":{"@type":"Answer","text":"En typisk norsk bil koster mellom 5 000 og 12 000 kroner per måned alt inkludert. De største postene er verditap, forsikring og drivstoff. Bruk kalkulatoren over for å se ditt eget tall."}},
+{"@type":"Question","name":"Hva er årsavgiften for en bil?","acceptedAnswer":{"@type":"Answer","text":"I 2026 er basisårsavgiften for personbil 3 074 kroner per år. Dieselbiler uten partikkelfilter betaler tillegg, og det kommer i tillegg trafikkforsikringsavgift som variere etter utslipp."}},
+{"@type":"Question","name":"Hvordan regner jeg ut kostnad per kilometer?","acceptedAnswer":{"@type":"Answer","text":"Del alle årlige kostnader på antall kjørte kilometer per år. Kalkulatoren over gjør dette automatisk når du fyller inn km per år."}}]}
+</script>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--line:#334155;--txt:#e2e8f0;--mut:#94a3b8;--acc:#38bdf8;--grn:#4ade80}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;padding:1rem}
+.wrap{max-width:820px;margin:0 auto}
+h1{font-size:1.6rem;margin:.5rem 0 1rem;color:#fff}
+h2{font-size:1.15rem;margin:1.5rem 0 .5rem;color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.9rem}
+label{display:block;font-size:.85rem;color:var(--mut);margin-bottom:.25rem}
+input{width:100%;padding:.55rem .7rem;border-radius:8px;border:1px solid var(--line);background:#0b1220;color:var(--txt);font-size:1rem}
+input:focus{outline:2px solid var(--acc)}
+.res{background:linear-gradient(135deg,#0c4a6e,#075985);border-color:#0369a1;text-align:center;padding:1.5rem}
+.res .big{font-size:2.4rem;font-weight:700;color:#fff}
+.res .sub{color:#bae6fd;font-size:.95rem}
+.row3{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin-top:1rem}
+.cell{background:rgba(255,255,255,.08);border-radius:10px;padding:.7rem}
+.cell b{display:block;font-size:1.15rem;color:#fff}
+.cell span{font-size:.78rem;color:#bae6fd}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+td{padding:.45rem;border-bottom:1px solid var(--line)}
+td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:#fff}
+.faq details{margin-bottom:.5rem}
+.faq summary{cursor:pointer;font-weight:600;color:#fff;padding:.4rem 0}
+a{color:var(--acc)}
+footer{margin-top:2rem;color:var(--mut);font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🚗 Bilkostnadskalkulator</h1>
+
+<div class="card res">
+  <div class="sub">Total kostnad</div>
+  <div class="big" id="mnd">– kr/mnd</div>
+  <div class="row3">
+    <div class="cell"><span>Per år</span><b id="aar">–</b></div>
+    <div class="cell"><span>Per km</span><b id="km">–</b></div>
+    <div class="cell"><span>Største post</span><b id="top">–</b></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="grid">
+    <div><label>Forsikring (kr/år)</label><input type="number" id="fors" value="6000"></div>
+    <div><label>Km per år</label><input type="number" id="kmaar" value="12000"></div>
+    <div><label>Forbruk (L/100km eller kWh/100km)</label><input type="number" step="0.1" id="forbruk" value="0.6"></div>
+    <div><label>Pris per enhet (kr/L eller kr/kWh)</label><input type="number" step="0.01" id="pris" value="22"></div>
+    <div><label>Årsavgift + trafikkforsikringsavgift (kr/år)</label><input type="number" id="aars" value="4500"></div>
+    <div><label>Bom, parkering (kr/år)</label><input type="number" id="bom" value="2000"></div>
+    <div><label>Service, dekkskift, reparasjoner (kr/år)</label><input type="number" id="serv" value="5000"></div>
+    <div><label>Verditap / avdrag (kr/år)</label><input type="number" id="tap" value="30000"></div>
+  </div>
+</div>
+
+<div class="card">
+  <table id="tbl"><tbody></tbody></table>
+</div>
+
+<div class="card faq">
+  <h2>Ofte spurt</h2>
+  <details open><summary>Hva koster det å ha bil per måned i Norge?</summary>En typisk bil koster 5 000–12 000 kr/mnd alt inkludert. Størst er verditap, forsikring og drivstoff. Fyll ut feltene over for ditt tall.</details>
+  <details><summary>Hva er årsavgiften?</summary>Basisårsavgiften for personbil er 3 074 kr (2026). Diesel uten partikkelfilter betaler mer, og trafikkforsikringsavgift kommer i tillegg.</details>
+  <details><summary>Hvorfor «verditap»?</summary>Bilen mister verdi hver måned selv om du ikke bruker den. Sett gjerne inn avdrag hvis bilen er finansiert – begge deler er reelle kostnader.</details>
+</div>
+
+<p style="margin-top:1rem"><a href="../../">← Alle verktøy</a></p>
+<footer>Gratis · ingen reklame · ingen sporing · <span id="bygget"></span></footer>
+</div>
+<script>
+function fmt(n){return Math.round(n).toLocaleString('nb-NO')+' kr'}
+function calc(){
+  var g=id=>parseFloat(document.getElementById(id).value)||0;
+  var post={Forsikring:g('fors'),Drivstoff:g('kmaar')/100*g('forbruk')*g('pris'),'Årsavgift':g('aars'),'Bom/parkering':g('bom'),Vedlikehold:g('serv'),'Verditap/avdrag':g('tap')};
+  var tot=0,top='–',topV=-1;
+  for(var k in post){tot+=post[k];if(post[k]>topV){topV=post[k];top=k}}
+  var km=g('kmaar');
+  document.getElementById('mnd').textContent=fmt(tot/12)+'/mnd';
+  document.getElementById('aar').textContent=fmt(tot);
+  document.getElementById('km').textContent=km>0?(Math.round(tot/km*100)/100).toLocaleString('nb-NO')+' kr':'–';
+  document.getElementById('top').textContent=top;
+  var tb=document.querySelector('#tbl tbody');tb.innerHTML='';
+  Object.keys(post).forEach(function(k){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+k+'</td><td>'+fmt(post[k])+' / år &nbsp;('+fmt(post[k]/12)+'/mnd)</td>';
+    tb.appendChild(tr)});
+  var t=document.createElement('tr');
+  t.innerHTML='<td style="font-weight:700;border:none;color:#fff">TOTALT</td><td style="font-weight:700;border:none">'+fmt(tot)+' / år</td>';
+  tb.appendChild(t)}
+document.querySelectorAll('input').forEach(function(i){i.addEventListener('input',calc)});
+calc();
+document.getElementById('bygget').textContent='Bygget automatisk '+new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>

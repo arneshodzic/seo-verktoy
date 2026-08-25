@@ -1,0 +1,9 @@
+# Verktoykø for seo-verktoy-botten
+# Én linje per verktøy: mappe|visningsnavn
+# Botten tar første ledige linje, bygger siden, og stryker den fra køen.
+moms-kalkulator|Moms- og avgiftskalkulator
+laanekalkulator|Lånekalkulator
+kaloriberegner|Kaloriberegner
+prosentregner|Prosentregner
+dagens-kalori-behov|Daglig kaloriebehov
+bmikalkulator|BMI-kalkulator
