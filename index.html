@@ -42,7 +42,28 @@ body::after{opacity:.5;
   background-size:58px 58px;
   -webkit-mask-image:radial-gradient(72% 52% at 50% 0%,#000,transparent);
           mask-image:radial-gradient(72% 52% at 50% 0%,#000,transparent)}
-.wrap{max-width:960px;margin:0 auto}
+.wrap{
+
+/* ---------- footer med kolonner ---------- */
+.site-footer{margin-top:2.4rem;border-top:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+  padding:2.2rem 0 1.4rem}
+.foot-grid{max-width:960px;margin:0 auto;padding:0 1rem;
+  display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:1.6rem}
+.brand-col .logo{justify-content:flex-start;font-size:1.3rem}
+.brand-col p{color:var(--mut);font-size:.9rem;line-height:1.55;margin-top:.7rem;max-width:30ch}
+.foot-h{font-family:Sora,Inter,sans-serif;font-weight:600;color:#fff;font-size:.82rem;
+  letter-spacing:.04em;text-transform:uppercase;margin-bottom:.8rem}
+.foot-col a{display:block;color:var(--mut);text-decoration:none;font-size:.9rem;
+  padding:.28rem 0;transition:color .15s}
+.foot-col a:hover{color:var(--acc-lys)}
+.foot-bot{max-width:960px;margin:1.6rem auto 0;padding:1.1rem 1rem 0;border-top:1px solid var(--line);
+  color:var(--dim);font-size:.8rem;text-align:center;line-height:1.6}
+.foot-bot a{color:var(--dim)}
+.foot-bot a:hover{color:var(--acc-lys)}
+@media(max-width:680px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.foot-grid{grid-template-columns:1fr}}
+max-width:960px;margin:0 auto}
 a{color:var(--acc-lys);text-underline-offset:3px}
 :focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:8px}
 [hidden]{display:none!important}
@@ -189,7 +210,40 @@ mark{background:rgba(34,211,238,.25);color:var(--acc-lys);border-radius:4px;padd
   fortløpende – finans, bil og reise, livsstil og helse, og praktisk hverdag.
 </div>
 
-<footer>Smartkalkulator &middot; gratis &middot; ingen reklame &middot; ingen sporing</footer>
+
+<div class="site-footer">
+  <div class="foot-grid">
+    <div class="brand-col">
+      <div class="logo">Smartkalkulator</div>
+      <p>Gratis, oppdatert hver dag. Aldri glipp en frist eller et regnestykke igjen.</p>
+    </div>
+    <div class="foot-col">
+      <div class="foot-h">Utforsk</div>
+      <a href="verktoy/alder/">Alderskalkulator</a>
+<a href="verktoy/bmikalkulator/">BMI-kalkulator</a>
+<a href="verktoy/bilkostnadskalkulator/">Bilkostnadskalkulator</a>
+<a href="verktoy/dato-kalkulator/">Datokalkulator</a>
+<a href="verktoy/elbil-ladekostnad/">Elbilladekalkulator</a>
+<a href="verktoy/enhetskonverterer/">Enhetskonverterer</a>
+    </div>
+    <div class="foot-col">
+      <div class="foot-h">Populært</div>
+      <a href="verktoy/feriepenger/">Feriepengeskalkulator</a>
+<a href="verktoy/kaloriberegner/">Kaloriberegner</a>
+    </div>
+    <div class="foot-col">
+      <div class="foot-h">Juridisk</div>
+      <a href="../juridisk/personvern/">Personvern</a>
+<a href="../juridisk/vilkar/">Vilkår</a>
+<a href="../juridisk/cookies/">Cookies</a>
+<a href="../juridisk/om-oss/">Om oss</a>
+    </div>
+  </div>
+  <div class="foot-bot">
+    © 2026 Smartkalkulator &middot; en gratis tjeneste i samme familie som <a href="../fristkalender/">Fristkalender.no</a><br>
+    Opplysningene er veiledende – sjekk alltid hos offentlig kilde ved tvil.
+  </div>
+</div>
 </div>
 
 <script>

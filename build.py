@@ -1,3 +1,4 @@
+import footer
 # -*- coding: utf-8 -*-
 """Bygger hub-siden (index.html) med kategorifaner.
 Skanner verktoy/*/index.html, henter kat/navn/desc/icon fra generer.py sitt LIB."""
@@ -82,6 +83,9 @@ schema = json.dumps({
                         "url": BASE + t["url"]} for i, t in enumerate(tools)]},
 }, ensure_ascii=False)
 
+foot = footer.footer_html("Smartkalkulator",
+    [(t["name"], t["url"]) for t in tools[:8]],
+    juridisk_base="../juridisk")
 html = """<!DOCTYPE html>
 <html lang="no">
 <head>
@@ -126,7 +130,28 @@ body::after{opacity:.5;
   background-size:58px 58px;
   -webkit-mask-image:radial-gradient(72% 52% at 50% 0%,#000,transparent);
           mask-image:radial-gradient(72% 52% at 50% 0%,#000,transparent)}
-.wrap{max-width:960px;margin:0 auto}
+.wrap{
+
+/* ---------- footer med kolonner ---------- */
+.site-footer{margin-top:2.4rem;border-top:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+  padding:2.2rem 0 1.4rem}
+.foot-grid{max-width:960px;margin:0 auto;padding:0 1rem;
+  display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:1.6rem}
+.brand-col .logo{justify-content:flex-start;font-size:1.3rem}
+.brand-col p{color:var(--mut);font-size:.9rem;line-height:1.55;margin-top:.7rem;max-width:30ch}
+.foot-h{font-family:Sora,Inter,sans-serif;font-weight:600;color:#fff;font-size:.82rem;
+  letter-spacing:.04em;text-transform:uppercase;margin-bottom:.8rem}
+.foot-col a{display:block;color:var(--mut);text-decoration:none;font-size:.9rem;
+  padding:.28rem 0;transition:color .15s}
+.foot-col a:hover{color:var(--acc-lys)}
+.foot-bot{max-width:960px;margin:1.6rem auto 0;padding:1.1rem 1rem 0;border-top:1px solid var(--line);
+  color:var(--dim);font-size:.8rem;text-align:center;line-height:1.6}
+.foot-bot a{color:var(--dim)}
+.foot-bot a:hover{color:var(--acc-lys)}
+@media(max-width:680px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.foot-grid{grid-template-columns:1fr}}
+max-width:960px;margin:0 auto}
 a{color:var(--acc-lys);text-underline-offset:3px}
 :focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:8px}
 [hidden]{display:none!important}
@@ -248,7 +273,7 @@ __PANELS__
   fortløpende – finans, bil og reise, livsstil og helse, og praktisk hverdag.
 </div>
 
-<footer>Smartkalkulator &middot; gratis &middot; ingen reklame &middot; ingen sporing</footer>
+__FOOTER__
 </div>
 
 <script>
@@ -319,7 +344,8 @@ __PANELS__
 html = (html.replace("__SCHEMA__", schema)
             .replace("__ANTALL__", str(len(tools)))
             .replace("__FANER__", tabbtns)
-            .replace("__PANELS__", panels_html))
+            .replace("__PANELS__", panels_html)
+            .replace("__FOOTER__", foot))
 with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
     f.write(html)
 print(f"Hub bygget: {len(tools)} verktøy i {len(grupper)} kategorier:",
