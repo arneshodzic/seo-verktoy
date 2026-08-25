@@ -138,8 +138,27 @@ return {stor: n1(bmi), sub:kat,
             ["Hva er normal-BMI?", "WHO opererer med 18,5–24,9 som normalområde. Under 18,5 er undervekt, 25–29,9 overvekt og 30+ fedme."],
             ["Er BMI nøyaktig for alle?", "Nei. BMI skiller ikke mellom muskler og fett, så svært muskuløse personer kan klassifiseres som overvektige. Det er et grovt mål for befolkning, ikke en diagnose."],
             ["Hva kan jeg bruke i stedet?", "Livvidde og midje-hofte-forhold sier mer om helserisiko. BMI er likevel et nyttig og gratis utgangspunkt."]]},
+    "proteinbehov": {
+        "navn": "Proteinbehov-kalkulator", "icon": "💪",
+        "tittel": "Proteinbehov-kalkulator – hvor mye protein per dag? | Nettverktøy",
+        "desc": "Gratis proteinbehov-kalkulator: finn hvor mange gram protein du trenger per dag basert på vekt, mål og livssituasjon.",
+        "intro": "Anbefalt proteininntekt per kilo kroppsvekt varierer med målet ditt. Velg kategori og få gram per dag med én gang.",
+        "selects": [("mal", "Ditt mål / situasjon", [
+            ["1.2", "Vedlikehold (lite trening)"],
+            ["1.6", "Generell trening"],
+            ["1.8", "Muskelvekst / styrketrening"],
+            ["2.0", "Ned i vekt (bevar muskler)"],
+            ["1.5", "Eldre 65+ (forebygge muskeltap)"]], "1.6")],
+        "inputs": [("vekt", "Vekt (kg)", "80", "number")],
+        "js": """var f=parseFloat(gs('mal')), v=g('vekt'), d=v*f;
+return {stor: n0(d)+' g', sub:'protein per dag',
+  celler:[['Per kilo',n1(f)+' g/kg'],['Per måltid (4)',n0(d/4)+' g']],
+  rader:[['Ditt behov',n0(d)+' g / dag'],['Fordelt på 4 måltider',n0(d/4)+' g per måltid'],['Til info: anbefalt minimum',n0(v*0.8)+' g (0,8 g/kg)']]}""",
+        "faq": [
+            ["Hvor mye protein trenger jeg?", "Anbefalt minimum er 0,8 g per kilo kroppsvekt. Trener du styrke ligger 1,6–1,8 g/kg optimalt, og på slankekur opptil 2,0 g/kg for å bevare muskelmassen."],
+            ["Kan jeg få i meg for mye protein?", "For friske nyre­funksjoner er høyt inntak godt tolerert, men mer enn ca. 2,2 g/kg gir liten ekstra effekt. Nyresyke bør snakke med lege."],
+            ["Beste kildene til protein?", "Fisk, kjøtt, egg, meieriprodukter, bønner og linser. En generell tommelfinger: 20–40 g protein per hovedmåltid dekker de fleste behov."]]},
 }
-# ----------------------------------------------------------------
 
 TEMPLATE = """<!DOCTYPE html>
 <html lang="no">

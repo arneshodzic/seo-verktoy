@@ -3,5 +3,5 @@
 # Botten tar første ledige linje, bygger siden, og stryker den fra køen.
 kaloriberegner|Kaloriberegner
 prosentregner|Prosentregner
-dagens-kalori-behov|Daglig kaloriebehov
+proteinbehov|Proteinbehov-kalkulator
 bmikalkulator|BMI-kalkulator

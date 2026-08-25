@@ -20,6 +20,7 @@ DEFAULTS = {
     "prosentregner": {"a": "50", "b": "200"},
     "dato-kalkulator": {"fra": "2026-08-01", "til": "2026-09-01", "n": "30"},
     "bmikalkulator": {"vekt": "80", "hoyde": "180"},
+    "proteinbehov": {"mal": "1.6", "vekt": "80"},
 }
 
 def to_num(s):
@@ -61,6 +62,9 @@ for key, spec in LIB.items():
         elif key == "bmikalkulator":
             assert to_num(res["stor"]) == 24.7, res["stor"]
             assert res["sub"] == "Normalvekt", res
+        elif key == "proteinbehov":
+            assert to_num(res["stor"]) == 128 and res["sub"].startswith("protein"), res["stor"]
+            assert "0,8 g/kg" in rows_text(res), rows_text(res)
         print(f"OK   {key}: stor='{res['stor']}'")
         ok += 1
     except AssertionError as e:
