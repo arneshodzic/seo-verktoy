@@ -1,7 +1,13 @@
 # Verktoykø for seo-verktoy-botten
-# Én linje per verktøy: mappe|visningsnavn
-# Botten tar første ledige linje, bygger siden, og stryker den fra køen.
+# Én linje per verktoy: mappe|visningsnavn
+# Botten tar første ledige linje, bygger siden, og stryker den fra koen.
 kaloriberegner|Kaloriberegner
+feriepenger|Feriepengeskalkulator
 prosentregner|Prosentregner
+rentes-rente|Rentes rente-kalkulator
 proteinbehov|Proteinbehov-kalkulator
+elbil-ladekostnad|Elbilladekalkulator
 bmikalkulator|BMI-kalkulator
+alder|Alderskalkulator
+dato-kalkulator|Datokalkulator
+enhetskonverterer|Enhetskonverterer
