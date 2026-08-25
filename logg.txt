@@ -2,3 +2,13 @@
 # Format: dato | verktøy | status | URL
 2026-08-25|Moms- og avgiftskalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/moms-kalkulator/
 2026-08-25|Lånekalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/laanekalkulator/
+2026-08-25|Kaloriberegner|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/kaloriberegner/
+2026-08-25|Feriepengeskalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/feriepenger/
+2026-08-25|Prosentregner|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/prosentregner/
+2026-08-25|Rentes rente-kalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/rentes-rente/
+2026-08-25|Proteinbehov-kalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/proteinbehov/
+2026-08-25|Elbilladekalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/elbil-ladekostnad/
+2026-08-25|BMI-kalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/bmikalkulator/
+2026-08-25|Alderskalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/alder/
+2026-08-25|Datokalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/dato-kalkulator/
+2026-08-25|Enhetskonverterer|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/enhetskonverterer/

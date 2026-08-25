@@ -1,87 +1,4 @@
-# -*- coding: utf-8 -*-
-"""Bygger hub-siden (index.html) med kategorifaner.
-Skanner verktoy/*/index.html, henter kat/navn/desc/icon fra generer.py sitt LIB."""
-import os, re, sys, json
-
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from generer import LIB
-
-ROOT = os.path.dirname(os.path.abspath(__file__))
-TOOLS_DIR = os.path.join(ROOT, "verktoy")
-
-KATEGORIER = [
-    ("finans", "💰 Finans"),
-    ("bil", "🚗 Bil & reise"),
-    ("livsstil", "💪 Livsstil & helse"),
-    ("hverdag", "📅 Hverdag"),
-    ("annet", "🔧 Annet"),
-]
-
-# verktøy som ikke ligger i LIB (håndlagde) får kategori her:
-KAT_EKSTRA = {"bilkostnadskalkulator": "bil"}
-
-def extract(meta_path):
-    with open(meta_path, encoding="utf-8") as f:
-        t = f.read()
-    def grab(pat):
-        m = re.search(pat, t)
-        return m.group(1).strip() if m else ""
-    title = grab(r"<title>(.*?)</title>")
-    desc = grab(r'<meta name="description" content="(.*?)"')
-    folder = os.path.basename(os.path.dirname(meta_path))
-    spec = LIB.get(folder, {})
-    # navnet fra LIB er alltid riktig; fra title deler vi bare pa separator med
-    # mellomrom rundt, ellers ryker "BMI-kalkulator" og "Rentes rente-kalkulator"
-    name = spec.get("navn") or re.split(r"\s+[|–—-]\s+", title)[0].strip()
-    # verktøy utenfor LIB: hent ikon fra h1 uten markup, bare første symbol
-    h1 = re.sub(r"<[^>]+>", " ", grab(r"<h1>(.*?)</h1>")).split()
-    icon = spec.get("icon") or (h1[0] if h1 else "\U0001f527")
-    return {"name": name, "desc": desc, "icon": icon,
-            "kat": spec.get("kat", KAT_EKSTRA.get(folder, "annet")),
-            "url": "verktoy/" + folder + "/"}
-
-tools = [extract(os.path.join(TOOLS_DIR, x, "index.html"))
-         for x in os.listdir(TOOLS_DIR)
-         if os.path.isfile(os.path.join(TOOLS_DIR, x, "index.html"))]
-tools.sort(key=lambda t: t["name"])
-
-# grupper per kategori
-grupper = {}
-for t in tools:
-    grupper.setdefault(t["kat"], []).append(t)
-
-faner = ""
-panels_html = ""
-for i, (kat, label) in enumerate(KATEGORIER):
-    if kat not in grupper:
-        continue
-    forste = not panels_html
-    kort = "\n".join(
-        f'<a class="t" href="{t["url"]}"><span class="i" aria-hidden="true">{t["icon"]}</span>'
-        f'<span class="n">{t["name"]}</span><span class="d">{t["desc"]}</span></a>'
-        for t in grupper[kat])
-    panels_html += (f'<div class="panel" id="p-{kat}" role="tabpanel" aria-labelledby="f-{kat}"'
-                    f'{"" if forste else " hidden"}>\n{kort}\n</div>\n')
-
-tabbtns = "".join(
-    f'<button class="fane{" aktiv" if i == 0 else ""}" id="f-{kat}" data-kat="{kat}" type="button" '
-    f'role="tab" aria-controls="p-{kat}" aria-selected="{"true" if i == 0 else "false"}" '
-    f'tabindex="{0 if i == 0 else -1}">{label}<span class="ant">{len(grupper[kat])}</span></button>\n'
-    for i, (kat, label) in enumerate(k for k in KATEGORIER if k[0] in grupper))
-
-# ItemList-schema av alle kalkulatorene (SEO)
-BASE = "https://arneshodzic.github.io/seo-verktoy/"
-schema = json.dumps({
-    "@context": "https://schema.org", "@type": "CollectionPage",
-    "name": "Smartkalkulator", "url": BASE, "inLanguage": "nb-NO",
-    "description": "Gratis norske kalkulatorer for finans, bil, helse og hverdag.",
-    "mainEntity": {"@type": "ItemList", "numberOfItems": len(tools),
-                   "itemListElement": [
-                       {"@type": "ListItem", "position": i + 1, "name": t["name"],
-                        "url": BASE + t["url"]} for i, t in enumerate(tools)]},
-}, ensure_ascii=False)
-
-html = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="no">
 <head>
 <meta charset="UTF-8">
@@ -97,7 +14,7 @@ html = """<!DOCTYPE html>
 <meta property="og:description" content="Gratis norske kalkulatorer: moms, lån, feriepenger, kalorier, BMI, elbillading og mer. Raske svar, ingen registrering.">
 <meta property="og:url" content="https://arneshodzic.github.io/seo-verktoy/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Cg transform='rotate(-7 48 48)'%3E%3Cpath d='M32 11h25.2L75 28.8V74a11 11 0 0 1-11 11H32a11 11 0 0 1-11-11V22a11 11 0 0 1 11-11z' fill='%23101a2c' stroke='%2322d3ee' stroke-width='4'/%3E%3Crect x='30' y='21.5' width='36' height='17' rx='4.5' fill='%2305202a' stroke='%2322d3ee' stroke-width='2.5'/%3E%3Cpath d='M13.6 2 4.9 14.4h5.5L8.6 22l8.9-12.6h-5.6z' transform='translate(41.4 24.2) scale(.56)' fill='%2367e8f9'/%3E%3Cg fill='%232b3a54'%3E%3Crect x='30' y='48' width='11' height='9' rx='2.5'/%3E%3Crect x='44' y='48' width='11' height='9' rx='2.5'/%3E%3Crect x='30' y='62' width='11' height='9' rx='2.5'/%3E%3C/g%3E%3Crect x='44' y='62' width='11' height='9' rx='2.5' fill='%2322d3ee'/%3E%3C/g%3E%3C/svg%3E">
-<script type="application/ld+json">__SCHEMA__</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "Smartkalkulator", "url": "https://arneshodzic.github.io/seo-verktoy/", "inLanguage": "nb-NO", "description": "Gratis norske kalkulatorer for finans, bil, helse og hverdag.", "mainEntity": {"@type": "ItemList", "numberOfItems": 12, "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Alderskalkulator", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/alder/"}, {"@type": "ListItem", "position": 2, "name": "BMI-kalkulator", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/bmikalkulator/"}, {"@type": "ListItem", "position": 3, "name": "Datokalkulator", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/dato-kalkulator/"}, {"@type": "ListItem", "position": 4, "name": "Elbilladekalkulator", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/elbil-ladekostnad/"}, {"@type": "ListItem", "position": 5, "name": "Enhetskonverterer", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/enhetskonverterer/"}, {"@type": "ListItem", "position": 6, "name": "Feriepengeskalkulator", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/feriepenger/"}, {"@type": "ListItem", "position": 7, "name": "Kaloriberegner", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/kaloriberegner/"}, {"@type": "ListItem", "position": 8, "name": "Lånekalkulator", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/laanekalkulator/"}, {"@type": "ListItem", "position": 9, "name": "Momskalkulator", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/moms-kalkulator/"}, {"@type": "ListItem", "position": 10, "name": "Prosentregner", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/prosentregner/"}, {"@type": "ListItem", "position": 11, "name": "Proteinbehov-kalkulator", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/proteinbehov/"}, {"@type": "ListItem", "position": 12, "name": "Rentes rente-kalkulator", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/rentes-rente/"}]}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap">
@@ -211,15 +128,39 @@ footer{margin-top:1.7rem;padding-top:1.2rem;border-top:1px solid var(--line);col
     <span>Smart<i>kalkulator</i></span>
   </div>
   <h1 class="slag">Regn ut svaret på sekunder</h1>
-  <p class="sub"><b>__ANTALL__ gratis kalkulatorer</b> &middot; ingen registrering &middot; ingen sporing</p>
+  <p class="sub"><b>12 gratis kalkulatorer</b> &middot; ingen registrering &middot; ingen sporing</p>
 </header>
 
 <nav class="faner" role="tablist" aria-label="Kategorier">
-__FANER__
+<button class="fane aktiv" id="f-finans" data-kat="finans" type="button" role="tab" aria-controls="p-finans" aria-selected="true" tabindex="0">💰 Finans<span class="ant">4</span></button>
+<button class="fane" id="f-bil" data-kat="bil" type="button" role="tab" aria-controls="p-bil" aria-selected="false" tabindex="-1">🚗 Bil & reise<span class="ant">1</span></button>
+<button class="fane" id="f-livsstil" data-kat="livsstil" type="button" role="tab" aria-controls="p-livsstil" aria-selected="false" tabindex="-1">💪 Livsstil & helse<span class="ant">3</span></button>
+<button class="fane" id="f-hverdag" data-kat="hverdag" type="button" role="tab" aria-controls="p-hverdag" aria-selected="false" tabindex="-1">📅 Hverdag<span class="ant">4</span></button>
+
 </nav>
 
 <main>
-__PANELS__
+<div class="panel" id="p-finans" role="tabpanel" aria-labelledby="f-finans">
+<a class="t" href="verktoy/feriepenger/"><span class="i" aria-hidden="true">🏖️</span><span class="n">Feriepengeskalkulator</span><span class="d">Gratis feriepengeskalkulator: finn hvor mange feriepenger du har opptjent basert på lønn og sats (10,2 % eller 12,2 %).</span></a>
+<a class="t" href="verktoy/laanekalkulator/"><span class="i" aria-hidden="true">🏦</span><span class="n">Lånekalkulator</span><span class="d">Gratis lånekalkulator: se månedlig terminbeløp, totalkostnad og total rente for lån med annuitet. Rask og enkel.</span></a>
+<a class="t" href="verktoy/moms-kalkulator/"><span class="i" aria-hidden="true">🧾</span><span class="n">Momskalkulator</span><span class="d">Gratis momskalkulator: legg til eller fjern moms (mva) 25 %, 15 % eller 12 % på sekunder. Se beløp med og uten moms.</span></a>
+<a class="t" href="verktoy/rentes-rente/"><span class="i" aria-hidden="true">📈</span><span class="n">Rentes rente-kalkulator</span><span class="d">Gratis kalkulator for rentes rente: se hva sparingen din blir verdt med engangsbeløp, månedlig innskudd og fast avkastning.</span></a>
+</div>
+<div class="panel" id="p-bil" role="tabpanel" aria-labelledby="f-bil" hidden>
+<a class="t" href="verktoy/elbil-ladekostnad/"><span class="i" aria-hidden="true">🔌</span><span class="n">Elbilladekalkulator</span><span class="d">Gratis kalkulator for elbillading: se strømkostnad per 100 km og per år, sammenlignet med en bensinbil.</span></a>
+</div>
+<div class="panel" id="p-livsstil" role="tabpanel" aria-labelledby="f-livsstil" hidden>
+<a class="t" href="verktoy/bmikalkulator/"><span class="i" aria-hidden="true">⚖️</span><span class="n">BMI-kalkulator</span><span class="d">Gratis BMI-kalkulator: finn din Body Mass Index og hva tallet betyr, pluss normalvekt for din høyde.</span></a>
+<a class="t" href="verktoy/kaloriberegner/"><span class="i" aria-hidden="true">🔥</span><span class="n">Kaloriberegner</span><span class="d">Finn ditt daglige kaloriebehov gratis: BMR og forbrenning basert på kjønn, alder, vekt, høyde og aktivitetsnivå.</span></a>
+<a class="t" href="verktoy/proteinbehov/"><span class="i" aria-hidden="true">💪</span><span class="n">Proteinbehov-kalkulator</span><span class="d">Gratis proteinbehov-kalkulator: finn hvor mange gram protein du trenger per dag basert på vekt, mål og livssituasjon.</span></a>
+</div>
+<div class="panel" id="p-hverdag" role="tabpanel" aria-labelledby="f-hverdag" hidden>
+<a class="t" href="verktoy/alder/"><span class="i" aria-hidden="true">🎂</span><span class="n">Alderskalkulator</span><span class="d">Gratis alderskalkulator: finn din eksakte alder i år, måneder og dager – pluss levede dager og dager til neste bursdag.</span></a>
+<a class="t" href="verktoy/dato-kalkulator/"><span class="i" aria-hidden="true">📅</span><span class="n">Datokalkulator</span><span class="d">Gratis datokalkulator: finn antall dager mellom to datoer, eller legg til/trekk fra dager på en dato. Raskt og enkelt.</span></a>
+<a class="t" href="verktoy/enhetskonverterer/"><span class="i" aria-hidden="true">📐</span><span class="n">Enhetskonverterer</span><span class="d">Konverter mellom enheter gratis: mm, cm, m, km, norske mil, pund, tonn, Celsius, Fahrenheit og mer. Raskt og enkelt.</span></a>
+<a class="t" href="verktoy/prosentregner/"><span class="i" aria-hidden="true">％</span><span class="n">Prosentregner</span><span class="d">Gratis prosentregner: finn prosentandel, endring i prosent og prosent av et tall. Enkle prosentregninger på sekunder.</span></a>
+</div>
+
 </main>
 
 <div class="info">
@@ -257,13 +198,4 @@ __PANELS__
   });
 })();
 </script>
-</body></html>"""
-
-html = (html.replace("__SCHEMA__", schema)
-            .replace("__ANTALL__", str(len(tools)))
-            .replace("__FANER__", tabbtns)
-            .replace("__PANELS__", panels_html))
-with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
-    f.write(html)
-print(f"Hub bygget: {len(tools)} verktøy i {len(grupper)} kategorier:",
-      {k: len(v) for k, v in sorted(grupper.items())})
+</body></html>
