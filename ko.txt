@@ -1,7 +1,6 @@
 # Verktoykø for seo-verktoy-botten
 # Én linje per verktøy: mappe|visningsnavn
 # Botten tar første ledige linje, bygger siden, og stryker den fra køen.
-laanekalkulator|Lånekalkulator
 kaloriberegner|Kaloriberegner
 prosentregner|Prosentregner
 dagens-kalori-behov|Daglig kaloriebehov
