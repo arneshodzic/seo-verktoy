@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
 """Felles footer + juridiske drilldown-sider for Fristkalender og Smartkalkulator.
 Bruk: from footer import footer_html, juridisk_side, FOOTER_CSS
-footer_html(side, lenker) -> HTML-streng (sett inn i <footer>-taggen)
-juridisk_side(tittel, innhold_html) -> fullside HTML
+
+RELATIV-STI-KONVENSJON (viktig!):
+  root = relativ sti FRA nåværende side TIL nettstedets rot (der index.html ligger).
+    - Hovedsiden (root/index.html):        root = ""
+    - Juridisk under-side (juridisk/x/):    root = "../../"
+  Alle lenker bygges som root + "juridisk/..." eller root + "assets/...".
 """
-import datetime, os
+import datetime
 
 AAR = datetime.date.today().year
+
+SK_SISTER = "https://arneshodzic.github.io/seo-verktoy/"
+FK_SISTER = "https://arneshodzic.github.io/fristkalender/"
 
 FOOTER_CSS = """
 /* ---------- footer med kolonner ---------- */
@@ -30,29 +37,23 @@ FOOTER_CSS = """
 @media(max-width:420px){.foot-grid{grid-template-columns:1fr}}
 """
 
-def footer_html(navn, lenker, juridisk_base="."):
-    """navn: 'Fristkalender'/'Smartkalkulator'. lenker: liste med (tittel,url).
-    juridisk_base: relativ sti til juridisk-mappen ('../juridisk' fra under-sider)."""
-    kat = []
-    pop = []
+def footer_html(navn, lenker, root=""):
+    """navn: 'Fristkalender'/'Smartkalkulator'.
+    lenker: liste med (tittel, url).
+    root: relativ sti fra nåværende side til rot ("" eller "../../")."""
+    soster = (f'<a href="{FK_SISTER}">Fristkalender.no</a>' if navn == "Smartkalkulator"
+              else f'<a href="{SK_SISTER}">Smartkalkulator.no</a>')
     jur = [
-        ("Personvern", f"{juridisk_base}/personvern/"),
-        ("Vilkår", f"{juridisk_base}/vilkar/"),
-        ("Cookies", f"{juridisk_base}/cookies/"),
-        ("Om oss", f"{juridisk_base}/om-oss/"),
+        ("Personvern", f"{root}juridisk/personvern/"),
+        ("Vilkår",     f"{root}juridisk/vilkar/"),
+        ("Cookies",    f"{root}juridisk/cookies/"),
+        ("Om oss",     f"{root}juridisk/om-oss/"),
     ]
-    # del lenker i kategori/populær
+    kat, pop = [], []
     for t, u in lenker:
-        if len(kat) < 6:
-            kat.append((t, u))
-        else:
-            pop.append((t, u))
+        (kat if len(kat) < 6 else pop).append((t, u))
     def lst(items):
         return "\n".join(f'<a href="{u}">{t}</a>' for t, u in items)
-    if navn == "Fristkalender":
-        soster = '<a href="../">Smartkalkulator.no</a>'
-    else:
-        soster = '<a href="../fristkalender/">Fristkalender.no</a>'
     return f'''
 <div class="site-footer">
   <div class="foot-grid">
@@ -60,18 +61,9 @@ def footer_html(navn, lenker, juridisk_base="."):
       <div class="logo">{navn}</div>
       <p>Gratis, oppdatert hver dag. Aldri glipp en frist eller et regnestykke igjen.</p>
     </div>
-    <div class="foot-col">
-      <div class="foot-h">Utforsk</div>
-      {lst(kat)}
-    </div>
-    <div class="foot-col">
-      <div class="foot-h">Populært</div>
-      {lst(pop)}
-    </div>
-    <div class="foot-col">
-      <div class="foot-h">Juridisk</div>
-      {lst(jur)}
-    </div>
+    <div class="foot-col"><div class="foot-h">Utforsk</div>{lst(kat)}</div>
+    <div class="foot-col"><div class="foot-h">Populært</div>{lst(pop)}</div>
+    <div class="foot-col"><div class="foot-h">Juridisk</div>{lst(jur)}</div>
   </div>
   <div class="foot-bot">
     © {AAR} {navn} &middot; en gratis tjeneste i samme familie som {soster}<br>
@@ -129,8 +121,10 @@ vi rangerer verktøy etter nytte, ikke etter betaling.</p>
 """),
 }
 
-def juridisk_side(slug, juridisk_base=".."):
+def juridisk_side(slug, root="../../"):
+    """Lager en juridisk under-side. root = sti fra denne siden til rot ("../../")."""
     tittel, innhold = DOCSIDER[slug]
+    rat = "" if root == "" else root
     return f'''<!DOCTYPE html>
 <html lang="no">
 <head>
@@ -138,17 +132,17 @@ def juridisk_side(slug, juridisk_base=".."):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{tittel} – Fristkalender</title>
 <meta name="robots" content="noindex">
-<link rel="stylesheet" href="{juridisk_base}/assets/style.css">
+<link rel="stylesheet" href="{root}assets/style.css">
 </head>
 <body>
 <div class="wrap" style="max-width:760px">
 <header style="text-align:left;padding:2rem 0 1rem">
-  <a class="logo" href="{juridisk_base}/">Frist<i>kalender</i></a>
+  <a class="logo" href="{root}">Frist<i>kalender</i></a>
   <h1 class="slag" style="text-align:left;margin-top:.8rem">{tittel}</h1>
 </header>
 <main style="color:var(--mut);line-height:1.7;font-size:1rem">
 {innhold}
 </main>
-{footer_html("Fristkalender", [("Alle frister","{juridisk_base}/")], juridisk_base="{juridisk_base}/juridisk")}
+{footer_html("Fristkalender", [], root=root)}
 </div>
 </body></html>'''

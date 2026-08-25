@@ -85,7 +85,7 @@ schema = json.dumps({
 
 foot = footer.footer_html("Smartkalkulator",
     [(t["name"], t["url"]) for t in tools[:8]],
-    juridisk_base="../juridisk")
+    root="")
 html = """<!DOCTYPE html>
 <html lang="no">
 <head>
