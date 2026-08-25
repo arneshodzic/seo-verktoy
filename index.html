@@ -103,6 +103,17 @@ footer{margin-top:1.7rem;padding-top:1.2rem;border-top:1px solid var(--line);col
 @keyframes inn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media(max-width:400px){body{padding:0 .8rem 2.5rem}.t{padding:.9rem}.fane{padding:.48rem .8rem;font-size:.85rem}}
+.sokefelt{position:relative;max-width:520px;margin:1.4rem auto 0}
+.sokefelt input{width:100%;padding:.85rem 1.1rem .85rem 2.9rem;font:inherit;font-size:1rem;
+  color:#fff;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;
+  transition:border-color .18s,box-shadow .18s}
+.sokefelt input::placeholder{color:var(--dim)}
+.sokefelt input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(34,211,238,.18),0 0 26px -8px rgba(34,211,238,.5)}
+.sokefelt .lupe{position:absolute;left:1.05rem;top:50%;transform:translateY(-50%);
+  color:var(--dim);pointer-events:none;font-size:1rem}
+.tomt{display:none;text-align:center;color:var(--mut);padding:2rem 1rem;border:1px dashed var(--line-2);
+  border-radius:var(--r);margin-top:.7rem}
+mark{background:rgba(34,211,238,.25);color:var(--acc-lys);border-radius:4px;padding:0 .1em}
 </style>
 </head>
 <body>
@@ -131,6 +142,12 @@ footer{margin-top:1.7rem;padding-top:1.2rem;border-top:1px solid var(--line);col
   <p class="sub"><b>13 gratis kalkulatorer</b> &middot; ingen registrering &middot; ingen sporing</p>
 </header>
 
+<div class="sokefelt">
+  <span class="lupe" aria-hidden="true">🔍</span>
+  <input type="search" id="sok" placeholder="Søk blant kalkulatorene – f.eks. «moms», «lån», «BMI»…"
+         aria-label="Søk i kalkulatorer" autocomplete="off">
+</div>
+
 <nav class="faner" role="tablist" aria-label="Kategorier">
 <button class="fane aktiv" id="f-finans" data-kat="finans" type="button" role="tab" aria-controls="p-finans" aria-selected="true" tabindex="0">💰 Finans<span class="ant">4</span></button>
 <button class="fane" id="f-bil" data-kat="bil" type="button" role="tab" aria-controls="p-bil" aria-selected="false" tabindex="-1">🚗 Bil & reise<span class="ant">2</span></button>
@@ -141,28 +158,30 @@ footer{margin-top:1.7rem;padding-top:1.2rem;border-top:1px solid var(--line);col
 
 <main>
 <div class="panel" id="p-finans" role="tabpanel" aria-labelledby="f-finans">
-<a class="t" href="verktoy/feriepenger/"><span class="i" aria-hidden="true">🏖️</span><span class="n">Feriepengeskalkulator</span><span class="d">Gratis feriepengeskalkulator: finn hvor mange feriepenger du har opptjent basert på lønn og sats (10,2 % eller 12,2 %).</span></a>
-<a class="t" href="verktoy/laanekalkulator/"><span class="i" aria-hidden="true">🏦</span><span class="n">Lånekalkulator</span><span class="d">Gratis lånekalkulator: se månedlig terminbeløp, totalkostnad og total rente for lån med annuitet. Rask og enkel.</span></a>
-<a class="t" href="verktoy/moms-kalkulator/"><span class="i" aria-hidden="true">🧾</span><span class="n">Momskalkulator</span><span class="d">Gratis momskalkulator: legg til eller fjern moms (mva) 25 %, 15 % eller 12 % på sekunder. Se beløp med og uten moms.</span></a>
-<a class="t" href="verktoy/rentes-rente/"><span class="i" aria-hidden="true">📈</span><span class="n">Rentes rente-kalkulator</span><span class="d">Gratis kalkulator for rentes rente: se hva sparingen din blir verdt med engangsbeløp, månedlig innskudd og fast avkastning.</span></a>
+<a class="t" data-sok="feriepengeskalkulator gratis feriepengeskalkulator: finn hvor mange feriepenger du har opptjent basert på lønn og sats (10,2 % eller 12,2 %)." href="verktoy/feriepenger/"><span class="i" aria-hidden="true">🏖️</span><span class="n">Feriepengeskalkulator</span><span class="d">Gratis feriepengeskalkulator: finn hvor mange feriepenger du har opptjent basert på lønn og sats (10,2 % eller 12,2 %).</span></a>
+<a class="t" data-sok="lånekalkulator gratis lånekalkulator: se månedlig terminbeløp, totalkostnad og total rente for lån med annuitet. rask og enkel." href="verktoy/laanekalkulator/"><span class="i" aria-hidden="true">🏦</span><span class="n">Lånekalkulator</span><span class="d">Gratis lånekalkulator: se månedlig terminbeløp, totalkostnad og total rente for lån med annuitet. Rask og enkel.</span></a>
+<a class="t" data-sok="momskalkulator gratis momskalkulator: legg til eller fjern moms (mva) 25 %, 15 % eller 12 % på sekunder. se beløp med og uten moms." href="verktoy/moms-kalkulator/"><span class="i" aria-hidden="true">🧾</span><span class="n">Momskalkulator</span><span class="d">Gratis momskalkulator: legg til eller fjern moms (mva) 25 %, 15 % eller 12 % på sekunder. Se beløp med og uten moms.</span></a>
+<a class="t" data-sok="rentes rente-kalkulator gratis kalkulator for rentes rente: se hva sparingen din blir verdt med engangsbeløp, månedlig innskudd og fast avkastning." href="verktoy/rentes-rente/"><span class="i" aria-hidden="true">📈</span><span class="n">Rentes rente-kalkulator</span><span class="d">Gratis kalkulator for rentes rente: se hva sparingen din blir verdt med engangsbeløp, månedlig innskudd og fast avkastning.</span></a>
 </div>
 <div class="panel" id="p-bil" role="tabpanel" aria-labelledby="f-bil" hidden>
-<a class="t" href="verktoy/bilkostnadskalkulator/"><span class="i" aria-hidden="true">🚗</span><span class="n">Bilkostnadskalkulator</span><span class="d">Gratis kalkulator for totale bilkostnader i Norge: forsikring, drivstoff, årsavgift, bom, vedlikehold og verditap. Se kostnad per måned og per km.</span></a>
-<a class="t" href="verktoy/elbil-ladekostnad/"><span class="i" aria-hidden="true">🔌</span><span class="n">Elbilladekalkulator</span><span class="d">Gratis kalkulator for elbillading: se strømkostnad per 100 km og per år, sammenlignet med en bensinbil.</span></a>
+<a class="t" data-sok="bilkostnadskalkulator gratis kalkulator for totale bilkostnader i norge: forsikring, drivstoff, årsavgift, bom, vedlikehold og verditap. se kostnad per måned og per km." href="verktoy/bilkostnadskalkulator/"><span class="i" aria-hidden="true">🚗</span><span class="n">Bilkostnadskalkulator</span><span class="d">Gratis kalkulator for totale bilkostnader i Norge: forsikring, drivstoff, årsavgift, bom, vedlikehold og verditap. Se kostnad per måned og per km.</span></a>
+<a class="t" data-sok="elbilladekalkulator gratis kalkulator for elbillading: se strømkostnad per 100 km og per år, sammenlignet med en bensinbil." href="verktoy/elbil-ladekostnad/"><span class="i" aria-hidden="true">🔌</span><span class="n">Elbilladekalkulator</span><span class="d">Gratis kalkulator for elbillading: se strømkostnad per 100 km og per år, sammenlignet med en bensinbil.</span></a>
 </div>
 <div class="panel" id="p-livsstil" role="tabpanel" aria-labelledby="f-livsstil" hidden>
-<a class="t" href="verktoy/bmikalkulator/"><span class="i" aria-hidden="true">⚖️</span><span class="n">BMI-kalkulator</span><span class="d">Gratis BMI-kalkulator: finn din Body Mass Index og hva tallet betyr, pluss normalvekt for din høyde.</span></a>
-<a class="t" href="verktoy/kaloriberegner/"><span class="i" aria-hidden="true">🔥</span><span class="n">Kaloriberegner</span><span class="d">Finn ditt daglige kaloriebehov gratis: BMR og forbrenning basert på kjønn, alder, vekt, høyde og aktivitetsnivå.</span></a>
-<a class="t" href="verktoy/proteinbehov/"><span class="i" aria-hidden="true">💪</span><span class="n">Proteinbehov-kalkulator</span><span class="d">Gratis proteinbehov-kalkulator: finn hvor mange gram protein du trenger per dag basert på vekt, mål og livssituasjon.</span></a>
+<a class="t" data-sok="bmi-kalkulator gratis bmi-kalkulator: finn din body mass index og hva tallet betyr, pluss normalvekt for din høyde." href="verktoy/bmikalkulator/"><span class="i" aria-hidden="true">⚖️</span><span class="n">BMI-kalkulator</span><span class="d">Gratis BMI-kalkulator: finn din Body Mass Index og hva tallet betyr, pluss normalvekt for din høyde.</span></a>
+<a class="t" data-sok="kaloriberegner finn ditt daglige kaloriebehov gratis: bmr og forbrenning basert på kjønn, alder, vekt, høyde og aktivitetsnivå." href="verktoy/kaloriberegner/"><span class="i" aria-hidden="true">🔥</span><span class="n">Kaloriberegner</span><span class="d">Finn ditt daglige kaloriebehov gratis: BMR og forbrenning basert på kjønn, alder, vekt, høyde og aktivitetsnivå.</span></a>
+<a class="t" data-sok="proteinbehov-kalkulator gratis proteinbehov-kalkulator: finn hvor mange gram protein du trenger per dag basert på vekt, mål og livssituasjon." href="verktoy/proteinbehov/"><span class="i" aria-hidden="true">💪</span><span class="n">Proteinbehov-kalkulator</span><span class="d">Gratis proteinbehov-kalkulator: finn hvor mange gram protein du trenger per dag basert på vekt, mål og livssituasjon.</span></a>
 </div>
 <div class="panel" id="p-hverdag" role="tabpanel" aria-labelledby="f-hverdag" hidden>
-<a class="t" href="verktoy/alder/"><span class="i" aria-hidden="true">🎂</span><span class="n">Alderskalkulator</span><span class="d">Gratis alderskalkulator: finn din eksakte alder i år, måneder og dager – pluss levede dager og dager til neste bursdag.</span></a>
-<a class="t" href="verktoy/dato-kalkulator/"><span class="i" aria-hidden="true">📅</span><span class="n">Datokalkulator</span><span class="d">Gratis datokalkulator: finn antall dager mellom to datoer, eller legg til/trekk fra dager på en dato. Raskt og enkelt.</span></a>
-<a class="t" href="verktoy/enhetskonverterer/"><span class="i" aria-hidden="true">📐</span><span class="n">Enhetskonverterer</span><span class="d">Konverter mellom enheter gratis: mm, cm, m, km, norske mil, pund, tonn, Celsius, Fahrenheit og mer. Raskt og enkelt.</span></a>
-<a class="t" href="verktoy/prosentregner/"><span class="i" aria-hidden="true">％</span><span class="n">Prosentregner</span><span class="d">Gratis prosentregner: finn prosentandel, endring i prosent og prosent av et tall. Enkle prosentregninger på sekunder.</span></a>
+<a class="t" data-sok="alderskalkulator gratis alderskalkulator: finn din eksakte alder i år, måneder og dager – pluss levede dager og dager til neste bursdag." href="verktoy/alder/"><span class="i" aria-hidden="true">🎂</span><span class="n">Alderskalkulator</span><span class="d">Gratis alderskalkulator: finn din eksakte alder i år, måneder og dager – pluss levede dager og dager til neste bursdag.</span></a>
+<a class="t" data-sok="datokalkulator gratis datokalkulator: finn antall dager mellom to datoer, eller legg til/trekk fra dager på en dato. raskt og enkelt." href="verktoy/dato-kalkulator/"><span class="i" aria-hidden="true">📅</span><span class="n">Datokalkulator</span><span class="d">Gratis datokalkulator: finn antall dager mellom to datoer, eller legg til/trekk fra dager på en dato. Raskt og enkelt.</span></a>
+<a class="t" data-sok="enhetskonverterer konverter mellom enheter gratis: mm, cm, m, km, norske mil, pund, tonn, celsius, fahrenheit og mer. raskt og enkelt." href="verktoy/enhetskonverterer/"><span class="i" aria-hidden="true">📐</span><span class="n">Enhetskonverterer</span><span class="d">Konverter mellom enheter gratis: mm, cm, m, km, norske mil, pund, tonn, Celsius, Fahrenheit og mer. Raskt og enkelt.</span></a>
+<a class="t" data-sok="prosentregner gratis prosentregner: finn prosentandel, endring i prosent og prosent av et tall. enkle prosentregninger på sekunder." href="verktoy/prosentregner/"><span class="i" aria-hidden="true">％</span><span class="n">Prosentregner</span><span class="d">Gratis prosentregner: finn prosentandel, endring i prosent og prosent av et tall. Enkle prosentregninger på sekunder.</span></a>
 </div>
 
 </main>
+
+<div class="tomt" id="tomt-sok">Ingen kalkulatorer matcher søket 😕 Prøv et annet ord.</div>
 
 <div class="info">
   <strong>Nye kalkulatorer hver uke</strong>
@@ -197,6 +216,43 @@ footer{margin-top:1.7rem;padding-top:1.2rem;border-top:1px solid var(--line);col
       if(n){e.preventDefault();vis(n);n.focus()}
     });
   });
+
+  /* ---------- søk over alle kalkulatorene ---------- */
+  var sokInput=document.getElementById('sok');
+  var kort=[].slice.call(document.querySelectorAll('.panel .t'));
+  var tomBoks=document.getElementById('tomt-sok');
+  function fjernMark(el){el.innerHTML=el.innerHTML.replace(/<\/?mark>/g,'')}
+  sokInput.addEventListener('input',function(){
+    var q=sokInput.value.trim().toLowerCase();
+    kort.forEach(fjernMark);
+    if(!q){
+      kort.forEach(function(k){k.style.display=''});
+      if(tomBoks)tomBoks.style.display='none';
+      faner.forEach(function(f){f.style.display=''});
+      return;
+    }
+    var synlige=0;
+    kort.forEach(function(k){
+      var treff=(k.getAttribute('data-sok')||'').indexOf(q)>-1;
+      k.style.display=treff?'':'none';
+      if(treff){synlige++;markOpp(k,q)}
+    });
+    if(tomBoks)tomBoks.style.display=synlige===0?'block':'none';
+  });
+  function markOpp(el,q){
+    var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false);
+    var noder=[];while(walker.nextNode())noder.push(walker.currentNode);
+    noder.forEach(function(node){
+      var idx=node.textContent.toLowerCase().indexOf(q);
+      if(idx>-1&&node.parentNode.nodeName!=='MARK'){
+        var etter=node.splitText(idx);
+        etter.splitText(q.length);
+        var m=document.createElement('mark');
+        m.appendChild(etter.cloneNode(true));
+        node.parentNode.replaceChild(m,etter);
+      }
+    });
+  }
 })();
 </script>
 </body></html>

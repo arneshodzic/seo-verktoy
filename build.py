@@ -57,7 +57,8 @@ for i, (kat, label) in enumerate(KATEGORIER):
         continue
     forste = not panels_html
     kort = "\n".join(
-        f'<a class="t" href="{t["url"]}"><span class="i" aria-hidden="true">{t["icon"]}</span>'
+        f'<a class="t" data-sok="{(t["name"] + " " + t["desc"]).lower()}" href="{t["url"]}">'
+        f'<span class="i" aria-hidden="true">{t["icon"]}</span>'
         f'<span class="n">{t["name"]}</span><span class="d">{t["desc"]}</span></a>'
         for t in grupper[kat])
     panels_html += (f'<div class="panel" id="p-{kat}" role="tabpanel" aria-labelledby="f-{kat}"'
@@ -186,6 +187,17 @@ footer{margin-top:1.7rem;padding-top:1.2rem;border-top:1px solid var(--line);col
 @keyframes inn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 @media(max-width:400px){body{padding:0 .8rem 2.5rem}.t{padding:.9rem}.fane{padding:.48rem .8rem;font-size:.85rem}}
+.sokefelt{position:relative;max-width:520px;margin:1.4rem auto 0}
+.sokefelt input{width:100%;padding:.85rem 1.1rem .85rem 2.9rem;font:inherit;font-size:1rem;
+  color:#fff;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;
+  transition:border-color .18s,box-shadow .18s}
+.sokefelt input::placeholder{color:var(--dim)}
+.sokefelt input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px rgba(34,211,238,.18),0 0 26px -8px rgba(34,211,238,.5)}
+.sokefelt .lupe{position:absolute;left:1.05rem;top:50%;transform:translateY(-50%);
+  color:var(--dim);pointer-events:none;font-size:1rem}
+.tomt{display:none;text-align:center;color:var(--mut);padding:2rem 1rem;border:1px dashed var(--line-2);
+  border-radius:var(--r);margin-top:.7rem}
+mark{background:rgba(34,211,238,.25);color:var(--acc-lys);border-radius:4px;padding:0 .1em}
 </style>
 </head>
 <body>
@@ -214,6 +226,12 @@ footer{margin-top:1.7rem;padding-top:1.2rem;border-top:1px solid var(--line);col
   <p class="sub"><b>__ANTALL__ gratis kalkulatorer</b> &middot; ingen registrering &middot; ingen sporing</p>
 </header>
 
+<div class="sokefelt">
+  <span class="lupe" aria-hidden="true">🔍</span>
+  <input type="search" id="sok" placeholder="Søk blant kalkulatorene – f.eks. «moms», «lån», «BMI»…"
+         aria-label="Søk i kalkulatorer" autocomplete="off">
+</div>
+
 <nav class="faner" role="tablist" aria-label="Kategorier">
 __FANER__
 </nav>
@@ -221,6 +239,8 @@ __FANER__
 <main>
 __PANELS__
 </main>
+
+<div class="tomt" id="tomt-sok">Ingen kalkulatorer matcher søket 😕 Prøv et annet ord.</div>
 
 <div class="info">
   <strong>Nye kalkulatorer hver uke</strong>
@@ -255,6 +275,43 @@ __PANELS__
       if(n){e.preventDefault();vis(n);n.focus()}
     });
   });
+
+  /* ---------- søk over alle kalkulatorene ---------- */
+  var sokInput=document.getElementById('sok');
+  var kort=[].slice.call(document.querySelectorAll('.panel .t'));
+  var tomBoks=document.getElementById('tomt-sok');
+  function fjernMark(el){el.innerHTML=el.innerHTML.replace(/<\/?mark>/g,'')}
+  sokInput.addEventListener('input',function(){
+    var q=sokInput.value.trim().toLowerCase();
+    kort.forEach(fjernMark);
+    if(!q){
+      kort.forEach(function(k){k.style.display=''});
+      if(tomBoks)tomBoks.style.display='none';
+      faner.forEach(function(f){f.style.display=''});
+      return;
+    }
+    var synlige=0;
+    kort.forEach(function(k){
+      var treff=(k.getAttribute('data-sok')||'').indexOf(q)>-1;
+      k.style.display=treff?'':'none';
+      if(treff){synlige++;markOpp(k,q)}
+    });
+    if(tomBoks)tomBoks.style.display=synlige===0?'block':'none';
+  });
+  function markOpp(el,q){
+    var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false);
+    var noder=[];while(walker.nextNode())noder.push(walker.currentNode);
+    noder.forEach(function(node){
+      var idx=node.textContent.toLowerCase().indexOf(q);
+      if(idx>-1&&node.parentNode.nodeName!=='MARK'){
+        var etter=node.splitText(idx);
+        etter.splitText(q.length);
+        var m=document.createElement('mark');
+        m.appendChild(etter.cloneNode(true));
+        node.parentNode.replaceChild(m,etter);
+      }
+    });
+  }
 })();
 </script>
 </body></html>"""
