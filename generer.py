@@ -16,6 +16,7 @@ def _esc(s):
 LIB = {
     # ------------------------------------------------------------- økonomi
     "moms-kalkulator": {
+        "kat": "finans",
         "navn": "Momskalkulator", "icon": "🧾",
         "tittel": "Momskalkulator – legg til eller fjern 25 % mva | Nettverktøy",
         "desc": "Gratis momskalkulator: legg til eller fjern moms (mva) 25 %, 15 % eller 12 % på sekunder. Se beløp med og uten moms.",
@@ -36,6 +37,7 @@ return {stor: fmtK(m), sub:'i moms ('+gs('sats')+' %)',
             ["Er momstallene gyldige for regnskap?", "Kalkulatoren er et hjelpeverktøy. Bruk alltid faktura og regnskapsprogrammet ditt for offisielle tall."]]},
 
     "laanekalkulator": {
+        "kat": "finans",
         "navn": "Lånekalkulator", "icon": "🏦",
         "tittel": "Lånekalkulator – regn ut terminbeløp og total rente | Nettverktøy",
         "desc": "Gratis lånekalkulator: se månedlig terminbeløp, totalkostnad og total rente for lån med annuitet. Rask og enkel.",
@@ -55,6 +57,7 @@ return {stor: fmtK(t), sub:'per måned',
             ["Lønner det seg å betale ned raskere?", "Som regel ja – hver ekstra krone du betaler ned reduserer rentekostnaden for resten av løpetiden. Prøv å kutte løpetiden og se hvordan total rente faller."]]},
 
     "feriepenger": {
+        "kat": "finans",
         "navn": "Feriepengeskalkulator", "icon": "🏖️",
         "tittel": "Feriepengeskalkulator – regn ut dine feriepenger | Nettverktøy",
         "desc": "Gratis feriepengeskalkulator: finn hvor mange feriepenger du har opptjent basert på lønn og sats (10,2 % eller 12,2 %).",
@@ -75,6 +78,7 @@ return {stor: fmtK(fp), sub:'i feriepenger',
             ["Hvorfor 10,2 % og ikke 10 %?", "Ferieloven gir 10 %, men den lovpålagte ferien er på 25 dager – tillegget på 2 prosentpoeng kompenserer for de fire ekstra dagene. Mange tariffavtaler gir 12 %."]]},
 
     "rentes-rente": {
+        "kat": "finans",
         "navn": "Rentes rente-kalkulator", "icon": "📈",
         "tittel": "Rentes rente-kalkulator – se sparingen din vokse | Nettverktøy",
         "desc": "Gratis kalkulator for rentes rente: se hva sparingen din blir verdt med engangsbeløp, månedlig innskudd og fast avkastning.",
@@ -96,6 +100,7 @@ return {stor: fmtK(fv), sub:'etter '+gs('aar')+' år',
 
     # ------------------------------------------------------------- bil og reise
     "elbil-ladekostnad": {
+        "kat": "bil",
         "navn": "Elbilladekalkulator", "icon": "🔌",
         "tittel": "Elbilladekalkulator – kostnad for å lade elbil | Nettverktøy",
         "desc": "Gratis kalkulator for elbillading: se strømkostnad per 100 km og per år, sammenlignet med en bensinbil.",
@@ -117,6 +122,7 @@ return {stor: fmtK(ea), sub:'strøm per år',
 
     # ------------------------------------------------------------- helse
     "kaloriberegner": {
+        "kat": "livsstil",
         "navn": "Kaloriberegner", "icon": "🔥",
         "tittel": "Kaloriberegner – ditt daglige kaloriebehov | Nettverktøy",
         "desc": "Finn ditt daglige kaloriebehov gratis: BMR og forbrenning basert på kjønn, alder, vekt, høyde og aktivitetsnivå.",
@@ -143,6 +149,7 @@ return {stor: fmtK(tdee), sub:'kcal per dag',
             ["Hvor mye skal jeg spise for å gå ned i vekt?", "Et vanlig og bærekraftig utgangspunkt er 500 kcal under vedlikeholdsbehov, som gir ca. 0,5 kg ned per uke. Ikke gå under 1 200 kcal uten legehjelp."]]},
 
     "proteinbehov": {
+        "kat": "livsstil",
         "navn": "Proteinbehov-kalkulator", "icon": "💪",
         "tittel": "Proteinbehov-kalkulator – hvor mye protein per dag? | Nettverktøy",
         "desc": "Gratis proteinbehov-kalkulator: finn hvor mange gram protein du trenger per dag basert på vekt, mål og livssituasjon.",
@@ -164,6 +171,7 @@ return {stor: n0(d)+' g', sub:'protein per dag',
             ["Beste kildene til protein?", "Fisk, kjøtt, egg, meieriprodukter, bønner og linser. En generell tommelfinger: 20–40 g protein per hovedmåltid dekker de fleste behov."]]},
 
     "bmikalkulator": {
+        "kat": "livsstil",
         "navn": "BMI-kalkulator", "icon": "⚖️",
         "tittel": "BMI-kalkulator – regn ut din Body Mass Index | Nettverktøy",
         "desc": "Gratis BMI-kalkulator: finn din Body Mass Index og hva tallet betyr, pluss normalvekt for din høyde.",
@@ -183,6 +191,7 @@ return {stor: n1(bmi), sub:kat,
 
     # ------------------------------------------------------------- nyttige verktøy
     "prosentregner": {
+        "kat": "hverdag",
         "navn": "Prosentregner", "icon": "％",
         "tittel": "Prosentregner – regn ut prosent raskt | Nettverktøy",
         "desc": "Gratis prosentregner: finn prosentandel, endring i prosent og prosent av et tall. Enkle prosentregninger på sekunder.",
@@ -200,6 +209,7 @@ return {stor: isFinite(pAB)? n1(pAB)+' %' : '–', sub:'A er av B',
             ["Hva betyr prosentpoeng?", "Prosentpoeng er differansen mellom to prosenter. Fra 20 % til 25 % er det 5 prosentpoeng, men 25 % økning i relativ forstand."]]},
 
     "dato-kalkulator": {
+        "kat": "hverdag",
         "navn": "Datokalkulator", "icon": "📅",
         "tittel": "Datokalkulator – dager mellom datoer | Nettverktøy",
         "desc": "Gratis datokalkulator: finn antall dager mellom to datoer, eller legg til/trekk fra dager på en dato. Raskt og enkelt.",
@@ -227,6 +237,7 @@ return {stor: dager!==null ? n0(dager)+' dager' : dn, sub: dager!==null?'mellom 
             ["Stemmer det over tidssoner?", "Kalkulatoren bruker lokal dato ved middagstid for å unngå feil ved sommer-/vintertid."]]},
 
     "enhetskonverterer": {
+        "kat": "hverdag",
         "navn": "Enhetskonverterer", "icon": "📐",
         "tittel": "Enhetskonverterer – lengde, vekt og temperatur | Nettverktøy",
         "desc": "Konverter mellom enheter gratis: mm, cm, m, km, norske mil, pund, tonn, Celsius, Fahrenheit og mer. Raskt og enkelt.",
@@ -262,6 +273,7 @@ return {stor:(Math.round(out*100)/100).toLocaleString('nb-NO')+' '+til, sub:kat,
             ["Hvor mange pund er en kilo?", "Én kilogram = 2,20462 pund (lbs). Og én tomme = 2,54 cm, én fot = 30,48 cm."]]},
 
     "alder": {
+        "kat": "hverdag",
         "navn": "Alderskalkulator", "icon": "🎂",
         "tittel": "Alderskalkulator – din eksakte alder i år, måneder og dager | Nettverktøy",
         "desc": "Gratis alderskalkulator: finn din eksakte alder i år, måneder og dager – pluss levede dager og dager til neste bursdag.",
