@@ -1,2 +1,3 @@
 # Publiseringslogg — seo-verktoy-botten
 # Format: dato | verktøy | status | URL
+2026-08-25|Moms- og avgiftskalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/moms-kalkulator/

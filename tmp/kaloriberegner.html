@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaloriberegner – ditt daglige kaloriebehov | Nettverktøy</title>
+<meta name="description" content="Finn ditt daglige kaloriebehov gratis: BMR og forbrenning basert på kjønn, alder, vekt, høyde og aktivitetsnivå.">
+<link rel="canonical" href="https://arneshodzic.github.io/seo-verktoy/verktoy/kaloriberegner/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Kaloriberegner", "url": "https://arneshodzic.github.io/seo-verktoy/verktoy/kaloriberegner/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Nettleser", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "NOK"}, "inLanguage": "nb-NO"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Hva er BMR?", "acceptedAnswer": {"@type": "Answer", "text": "BMR (basal metabolic rate) er energien kroppen din forbrenner i full hvile. Det er størstedelen av det du forbrenner hver dag."}}, {"@type": "Question", "name": "Hvor nøyaktig er kalkulatoren?", "acceptedAnswer": {"@type": "Answer", "text": "Mifflin-St Jeor er den mest brukte formelen og treffer typisk innenfor ±10 % for de fleste. Individuelle variasjoner i muskelmasse og stoffskifte gir avvik."}}, {"@type": "Question", "name": "Hvor mye skal jeg spise for å gå ned i vekt?", "acceptedAnswer": {"@type": "Answer", "text": "Et vanlig og bærekraftig utgangspunkt er 500 kcal under vedlikeholdsbehov, som gir ca. 0,5 kg ned per uke. Ikke gå under 1 200 kcal uten legehjelp."}}]}</script>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--line:#334155;--txt:#e2e8f0;--mut:#94a3b8;--acc:#38bdf8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;padding:1rem}
+.wrap{max-width:820px;margin:0 auto}
+h1{font-size:1.6rem;margin:.5rem 0 1rem;color:#fff}
+h2{font-size:1.15rem;margin:1.5rem 0 .5rem;color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.9rem}
+label{display:block;font-size:.85rem;color:var(--mut);margin-bottom:.25rem}
+input,select{width:100%;padding:.55rem .7rem;border-radius:8px;border:1px solid var(--line);background:#0b1220;color:var(--txt);font-size:1rem;color-scheme:dark}
+input:focus,select:focus{outline:2px solid var(--acc)}
+.res{background:linear-gradient(135deg,#0c4a6e,#075985);border-color:#0369a1;text-align:center;padding:1.5rem}
+.res .big{font-size:2.2rem;font-weight:700;color:#fff;word-break:break-word}
+.res .sub{color:#bae6fd;font-size:.95rem}
+.row3{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin-top:1rem}
+.cell{background:rgba(255,255,255,.08);border-radius:10px;padding:.7rem}
+.cell b{display:block;font-size:1.15rem;color:#fff}
+.cell span{font-size:.78rem;color:#bae6fd}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+td{padding:.45rem;border-bottom:1px solid var(--line)}
+td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:#fff}
+.faq details{margin-bottom:.5rem}
+.faq summary{cursor:pointer;font-weight:600;color:#fff;padding:.4rem 0}
+a{color:var(--acc)}
+footer{margin-top:2rem;color:var(--mut);font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🔥 Kaloriberegner</h1>
+<p style="color:var(--mut);margin-bottom:1rem">Basert på Mifflin-St Jeor-formelen: først hvileforbrenning (BMR), så daglig behov med aktivitetsnivået ditt.</p>
+
+<div class="card res">
+  <div class="big" id="stor">…</div>
+  <div class="sub" id="sub"></div>
+  <div class="row3" id="celler"></div>
+</div>
+
+<div class="card"><div class="grid" id="felt"><div><label>Kjønn</label><select id="kjonn"><option value="mann" selected>Mann</option><option value="kvinne">Kvinne</option></select></div>
+<div><label>Aktivitetsnivå</label><select id="aktivitet"><option value="1.2">Stillesittende (lite trening)</option><option value="1.375" selected>Lett aktiv (1–3 ganger i uken)</option><option value="1.55">Moderat aktiv (3–5 ganger i uken)</option><option value="1.725">Veldig aktiv (6–7 ganger i uken)</option></select></div>
+<div><label>Alder</label><input type="number" id="alder" value="35"></div>
+<div><label>Vekt (kg)</label><input type="number" id="vekt" value="80"></div>
+<div><label>Høyde (cm)</label><input type="number" id="hoyde" value="180"></div>
+</div></div>
+<div class="card"><table><tbody id="rader"></tbody></table></div>
+
+<div class="card faq">
+<h2>Ofte spurt</h2>
+<details open><summary>Hva er BMR?</summary>BMR (basal metabolic rate) er energien kroppen din forbrenner i full hvile. Det er størstedelen av det du forbrenner hver dag.</details>
+<details><summary>Hvor nøyaktig er kalkulatoren?</summary>Mifflin-St Jeor er den mest brukte formelen og treffer typisk innenfor ±10 % for de fleste. Individuelle variasjoner i muskelmasse og stoffskifte gir avvik.</details>
+<details><summary>Hvor mye skal jeg spise for å gå ned i vekt?</summary>Et vanlig og bærekraftig utgangspunkt er 500 kcal under vedlikeholdsbehov, som gir ca. 0,5 kg ned per uke. Ikke gå under 1 200 kcal uten legehjelp.</details>
+</div>
+
+<p style="margin-top:1rem"><a href="../../">&#8592; Alle verktøy</a></p>
+<footer>Gratis · ingen reklame · ingen sporing · bygget automatisk 2026-08-25</footer>
+</div>
+<script>
+function g(id){return parseFloat(document.getElementById(id).value)||0}
+function gs(id){return document.getElementById(id).value}
+function n0(x){return Math.round(x).toLocaleString('nb-NO')}
+function n1(x){return (Math.round(x*10)/10).toLocaleString('nb-NO',{minimumFractionDigits:1,maximumFractionDigits:1})}
+function fmtK(x){return n0(x)+' kr'}
+function beregn(){var r=(function(){
+var konst = gs('kjonn')==='mann' ? 5 : -161;
+var bmr = 10*g('vekt') + 6.25*g('hoyde') - 5*g('alder') + konst;
+var f = parseFloat(gs('aktivitet')), tdee = bmr*f;
+return {stor: fmtK(tdee), sub:'kcal per dag',
+  celler:[['Hvileforbrenning',fmtK(bmr)+' kcal'],['Aktivitetsfaktor',gs('aktivitet')]],
+  rader:[['Hvileforbrenning (BMR)',fmtK(bmr)+' kcal'],['Vedlikehold',fmtK(tdee)+' kcal'],
+         ['Ned 0,5 kg/uke',fmtK(Math.max(tdee-500,1200))+' kcal'],['Opp 0,5 kg/uke',fmtK(tdee+500)+' kcal']]}
+})();if(!r)return;r.stor&&(document.getElementById('stor').textContent=r.stor);r.sub!=null&&(document.getElementById('sub').textContent=r.sub);
+var c=document.getElementById('celler');c.innerHTML='';(r.celler||[]).forEach(function(x){var d=document.createElement('div');d.className='cell';d.innerHTML='<span>'+x[0]+'</span><b>'+x[1]+'</b>';c.appendChild(d)});
+var tb=document.getElementById('rader');tb.innerHTML='';(r.rader||[]).forEach(function(x){var tr=document.createElement('tr');tr.innerHTML='<td>'+x[0]+'</td><td>'+(x[1]||'')+'</td>';tb.appendChild(tr)})}
+document.querySelectorAll('#felt input,#felt select').forEach(function(i){i.addEventListener('input',beregn);i.addEventListener('change',beregn)});
+beregn();
+</script>
+</body>
+</html>

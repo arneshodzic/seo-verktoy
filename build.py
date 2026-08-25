@@ -20,9 +20,11 @@ def extract(meta_path):
     return {"name": name, "desc": desc, "icon": icon,
             "url": "verktoy/" + os.path.basename(os.path.dirname(meta_path)) + "/"}
 
-tools = sorted(extract(os.path.join(d, "index.html"))
-               for d in [os.path.join(TOOLS_DIR, x) for x in os.listdir(TOOLS_DIR)]
-               if os.path.isfile(os.path.join(d, "index.html")))
+tools = sorted(
+    (extract(os.path.join(d, "index.html"))
+     for d in [os.path.join(TOOLS_DIR, x) for x in os.listdir(TOOLS_DIR)]
+     if os.path.isfile(os.path.join(d, "index.html"))),
+    key=lambda t: t["name"])
 
 cards = "\n".join(
     f'<a class="t" href="{t["url"]}"><span class="i">{t["icon"]}</span>'
