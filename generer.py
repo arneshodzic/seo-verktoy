@@ -326,6 +326,91 @@ return {stor: fmtK(tot/12), sub:'per måned',
             ["Hva er årsavgiften for en bil?", "Basisårsavgiften for personbil er 3 074 kroner per år (2026). Dieselbiler uten partikkelfilter betaler tillegg, og trafikkforsikringsavgift kommer i tillegg – variere etter utslipp."],
             ["Hvorfor skal jeg ta med «verditap»?", "Bilen mister verdi hver måned selv om du ikke bruker den. Har du finansiering, kan du i stedet legge inn avdragene – begge deler er reelle kostnader ved å eie bilen."]]},
 
+    # ------------------------------------------------------------- hverdag
+    "rabattkalkulator": {
+        "kat": "hverdag",
+        "navn": "Rabattkalkulator", "icon": "🏷️",
+        "tittel": "Rabattkalkulator – hvor mye sparer du? | Smartkalkulator",
+        "desc": "Gratis rabattkalkulator: regn ut hvor mye du sparer i kroner og hva den faktiske prosenten blir når to eller flere tilbud slås sammen.",
+        "intro": "Slår butikken sammen to tilbud? Finn ut hva du faktisk sparer i kroner og hva den reelle prosenten blir.",
+        "inputs": [("pris", "Opprinnelig pris (kr)", "1000", "number"),
+                   ("rab1", "Rabatt 1 (%)", "20", "number"),
+                   ("rab2", "Rabatt 2 (%) – valgfri", "10", "number")],
+        "js": """var p=g('pris'),r1=g('rab1')/100,r2=g('rab2')/100;
+var ny=p*(1-r1)*(1-r2);
+var spart=p-ny;
+var tot=r1+r2-r1*r2;
+return {stor: fmtK(spart)+' kr', sub:'totalt i besparelse',
+  celler:[['Ny pris',fmtK(Math.round(ny))+' kr'],['Reell rabatt',Math.round(tot*100)+' %']],
+  rader:[['Opprinnelig',fmtK(p)+' kr'],['Du betaler',fmtK(Math.round(ny))+' kr'],['Du sparer',fmtK(Math.round(spart))+' kr'],['Reell rabatt',Math.round(tot*100)+' %']]}""",
+        "faq": [
+            ["Hvordan regnes to rabatter sammen?", "Rabatter slås ikke enkelt sammen til 30 %. Først trekkes 20 % av prisen, deretter 10 % av det nye beløpet. Reell rabatt blir 28 %, ikke 30 %."],
+            ["Er det bedre å få én stor eller to små rabatter?", "Det blir nesten alltid litt mer å få én rabatt på 30 % enn 20 % + 10 %, fordi den andre rabatten kun gjelder det allerede reduserte beløpet."]]},
+
+    "termindato": {
+        "kat": "hverdag",
+        "navn": "Termindato-kalkulator", "icon": "🗓️",
+        "tittel": "Termindato-kalkulator – når er fristen? | Smartkalkulator",
+        "desc": "Gratis termindato-kalkulator: legg inn startdato og antall dager, og se hvilken dato en frist eller periode utløper.",
+        "intro": "Fristen er X dager fra i dag – men hvilken dato er det? Fyll inn startdato og antall dager, så regner vi ut når det er ferdig.",
+        "inputs": [("start", "Startdato", "", "date"),
+                   ("dager", "Antall dager til frist", "14", "number")],
+        "js": """var s=g('start'),d=g('dager');
+if(!s) return {stor:'–',sub:'fyll inn startdato'};
+var dt=new Date(s+'T00:00:00');
+dt.setDate(dt.getDate()+d);
+var opt={weekday:'long',day:'numeric',month:'long',year:'numeric'};
+var txt=dt.toLocaleDateString('nb-NO',opt);
+var iDag=new Date();iDag.setHours(0,0,0,0);
+var diff=Math.round((dt-iDag)/86400000);
+return {stor: txt[0].toUpperCase()+txt.slice(1), sub:(diff>=0?diff+' dager til':'var '+Math.abs(diff)+' dager siden'),
+  celler:[['Startdato',new Date(s+'T00:00:00').toLocaleDateString('nb-NO',{day:'numeric',month:'long',year:'numeric'})],['Antall dager',d+' dager']],
+  rader:[['Startdato',new Date(s+'T00:00:00').toLocaleDateString('nb-NO',{day:'numeric',month:'long',year:'numeric'})],['Legg til',d+' dager'],['Fristen er',txt[0].toUpperCase()+txt.slice(1)]]}""",
+        "faq": [
+            ["Teller termindagen med?", "Vi legger antall dager rett til startdatoen – så 14 dager fra 1. januar er 15. januar. Det matcher hvordan de fleste frister (f.eks. angrerett) faktisk regnes."],
+            ["Kan jeg regne bakover?", "Ja – fyll inn et negativt antall dager (f.eks. -30) for å finne en dato tidligere i tid."]]},
+
+    "sovnsyklus": {
+        "kat": "livsstil",
+        "navn": "Søvnsyklus-kalkulator", "icon": "😴",
+        "tittel": "Søvnsyklus-kalkulator – når bør du vekkes? | Smartkalkulator",
+        "desc": "Gratis søvnsyklus-kalkulator: finn ut når du bør legge deg eller vekkes for å våkne etter et helt antall søvnsykluser (ca. 90 min hver).",
+        "intro": "En søvnsyklus varer ca. 90 minutter. Våkner du midt i en, er du tung i hodet – denne kalkulatoren finner gode legge- og vekketidspunkter.",
+        "inputs": [("vekk", "Ønsket vekketid", "07:00", "time"),
+                   ("sykluser", "Antall søvnsykluser", "5", "number")],
+        "js": """var v=g('vekk').split(':'),syk=g('sykluser');
+var dt=new Date();dt.setHours(+v[0],+v[1],0,0);
+var total=syk*90;
+var legg=new Date(dt.getTime()-total*60000);
+var hh=('0'+legg.getHours()).slice(-2),mm=('0'+legg.getMinutes()).slice(-2);
+return {stor: hh+':'+mm, sub:'bør du legge deg',
+  celler:[['Søvnsykluser',syk+' stk'],['Søvn i timer',(total/60).toFixed(1)+' t']],
+  rader:[['Ønsket vekketid',g('vekk')],['Antall sykluser',syk+' × 90 min'],['Anbefalt leggetid',hh+':'+mm],['Planlagt søvn',(total/60).toFixed(1)+' timer']]}""",
+        "faq": [
+            ["Hvor lenge varer en søvnsyklus?", "Omtrent 90 minutter for en voksen. En hel natt består av 4–6 slike sykluser med veksling mellom lett, dyp og REM-søvn."],
+            ["Hvorfor vil jeg våkne mellom sykluser?", "Du er lettest å vekke rett etter en syklus er ferdig. Våkner du midt i en dyp fase, føler du deg tung og uklar – såkalt søvninnøling."]]},
+
+    "pris-per-kilo": {
+        "kat": "hverdag",
+        "navn": "Pris per kilo-kalkulator", "icon": "⚖️",
+        "tittel": "Pris per kilo – sammenlign handlepriser | Smartkalkulator",
+        "desc": "Gratis pris-per-kilo-kalkulator: sammenlign to varer med ulik vekt og pris, og finn ut hvilken som faktisk er billigst per kilo.",
+        "intro": "To pakker, ulik vekt og ulik pris – hvilken er egentlig billigst? Fyll inn begge, så regner vi ut pris per kilo og hvem som vinner.",
+        "inputs": [("p1", "Pris vare A (kr)", "45", "number"),
+                   ("w1", "Vekt vare A (gram)", "500", "number"),
+                   ("p2", "Pris vare B (kr)", "79", "number"),
+                   ("w2", "Vekt vare B (gram)", "1000", "number")],
+        "js": """var p1=g('p1'),w1=g('w1')/1000,p2=g('p2'),w2=g('w2')/1000;
+if(w1<=0||w2<=0) return {stor:'–',sub:'vekt må være over 0'};
+var k1=p1/w1,k2=p2/w2;
+var billig=k1<=k2?'A':'B';
+return {stor: fmtK(Math.min(k1,k2))+' kr', sub:'billigst per kilo (vare '+billig+')',
+  celler:[['Vare A',Math.round(k1*100)/100+' kr/kg'],['Vare B',Math.round(k2*100)/100+' kr/kg']],
+  rader:[['Vare A',fmtK(p1)+' kr / '+g('w1')+' g → '+Math.round(k1*100)/100+' kr/kg'],['Vare B',fmtK(p2)+' kr / '+g('w2')+' g → '+Math.round(k2*100)/100+' kr/kg'],['Billigst',(billig==='A'?'Vare A':'Vare B')+' sparer '+fmtK(Math.abs(k1-k2))+' kr/kg']]}""",
+        "faq": [
+            ["Hvorfor sjekke pris per kilo?", "Butikker markedsfører ofte «tilbud» på store pakker som i realiteten er dyrere per kilo enn en mindre pakke. Å regne på kiloprisen avslører det."],
+            ["Hva med literspris?", "Samme prinsipp gjelder for varer målt i liter (f.eks. oppvaskmiddel) – bytt gram mot milliliter i hodet, regnestykket er det samme."]]},
+
 }
 
 TEMPLATE = r"""<!DOCTYPE html>

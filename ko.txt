@@ -1,3 +1,0 @@
-# Verktoykø for seo-verktoy-botten
-# Én linje per verktoy: mappe|visningsnavn
-# Botten tar første ledige linje, bygger siden, og stryker den fra koen.

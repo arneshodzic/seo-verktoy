@@ -12,3 +12,7 @@
 2026-08-25|Alderskalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/alder/
 2026-08-25|Datokalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/dato-kalkulator/
 2026-08-25|Enhetskonverterer|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/enhetskonverterer/
+2026-08-26|Rabattkalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/rabattkalkulator/
+2026-08-26|Termindato-kalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/termindato/
+2026-08-26|Søvnsyklus-kalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/sovnsyklus/
+2026-08-26|Pris per kilo-kalkulator|publisert|https://arneshodzic.github.io/seo-verktoy/verktoy/pris-per-kilo/
