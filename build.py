@@ -295,7 +295,7 @@ __PANELS__
 
 <section class="foresla" aria-labelledby="koresla-h">
   <h2 class="seksjon" id="koresla-h">🧮 Foreslå en kalkulator</h2>
-  <p class="ml-sub">Mangler et regnestykke? Fyll ut – forslaget sendes til oss via GitHub, og vi bygger den inn etter sjekk.</p>
+  <p class="ml-sub">Mangler et regnestykke? Fyll ut, så bygger vi det inn etter en kort sjekk.</p>
   <form id="k-skjema" autocomplete="off">
     <input type="text" id="k-tittel" placeholder="Navn på kalkulatoren * (f.eks. «Dekk-kostnad»)" maxlength="80" required>
     <textarea id="k-beskr" placeholder="Beskrivelse * – hva skal den regne ut, og hvem har bruk for den?" rows="3" required></textarea>
