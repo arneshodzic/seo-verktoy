@@ -116,6 +116,26 @@ footer{margin-top:1.7rem;padding-top:1.2rem;border-top:1px solid var(--line);col
   border-radius:var(--r);margin-top:.7rem}
 mark{background:rgba(34,211,238,.25);color:var(--acc-lys);border-radius:4px;padding:0 .1em}
 
+/* ---------- Foreslå kalkulator ---------- */
+.foresla{margin-top:1.9rem;border:1px solid var(--line-2);border-radius:var(--r);
+  background:linear-gradient(160deg,rgba(34,211,238,.06),rgba(129,140,248,.04));padding:1.3rem 1.25rem}
+.foresla .seksjon{margin:0 0 .3rem}
+#k-skjema{display:grid;gap:.6rem}
+#k-skjema input,#k-skjema textarea,#k-skjema select{font:inherit;font-size:.95rem;color:#fff;
+  background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:.65rem .8rem;width:100%}
+#k-skjema input::placeholder,#k-skjema textarea::placeholder{color:var(--dim)}
+#k-skjema input:focus,#k-skjema textarea:focus,#k-skjema select:focus{outline:none;border-color:var(--acc);
+  box-shadow:0 0 0 3px rgba(34,211,238,.15)}
+.k-rad{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media(max-width:560px){.k-rad{grid-template-columns:1fr}}
+.k-send{font:inherit;font-weight:600;color:#04212b;cursor:pointer;justify-self:start;
+  background:linear-gradient(180deg,#67e8f9,#22d3ee);border:none;border-radius:12px;padding:.65rem 1.2rem;
+  transition:transform .15s,box-shadow .15s}
+.k-send:hover{transform:translateY(-1px);box-shadow:0 12px 24px -12px rgba(34,211,238,.8)}
+.k-melding{font-size:.9rem;margin:0}
+.k-melding.ok{color:var(--acc-lys)}
+.k-melding.feil{color:#ff8f6b}
+
 
 /* ---------- footer med kolonner ---------- */
 .site-footer{margin-top:2.4rem;border-top:1px solid var(--line);

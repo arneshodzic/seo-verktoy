@@ -43,6 +43,9 @@ def footer_html(navn, lenker, root=""):
     root: relativ sti fra nåværende side til rot ("" eller "../../")."""
     soster = (f'<a href="{FK_SISTER}">Fristkalender.no</a>' if navn == "Smartkalkulator"
               else f'<a href="{SK_SISTER}">Smartkalkulator.no</a>')
+    beskrivelse = ("Gratis, oppdatert hver dag. Aldri glipp en frist igjen."
+                   if navn == "Fristkalender"
+                   else "Gratis, oppdatert hver dag. Aldri glipp et regnestykke igjen.")
     jur = [
         ("Personvern", f"{root}juridisk/personvern/"),
         ("Vilkår",     f"{root}juridisk/vilkar/"),
@@ -59,7 +62,7 @@ def footer_html(navn, lenker, root=""):
   <div class="foot-grid">
     <div class="brand-col">
       <div class="logo">{navn}</div>
-      <p>Gratis, oppdatert hver dag. Aldri glipp en frist eller et regnestykke igjen.</p>
+      <p>{beskrivelse}</p>
     </div>
     <div class="foot-col"><div class="foot-h">Utforsk</div>{lst(kat)}</div>
     <div class="foot-col"><div class="foot-h">Populært</div>{lst(pop)}</div>

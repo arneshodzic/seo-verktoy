@@ -135,6 +135,26 @@ footer{margin-top:1.7rem;padding-top:1.2rem;border-top:1px solid var(--line);col
 .tomt{display:none;text-align:center;color:var(--mut);padding:2rem 1rem;border:1px dashed var(--line-2);
   border-radius:var(--r);margin-top:.7rem}
 mark{background:rgba(34,211,238,.25);color:var(--acc-lys);border-radius:4px;padding:0 .1em}
+
+/* ---------- Foreslå kalkulator ---------- */
+.foresla{margin-top:1.9rem;border:1px solid var(--line-2);border-radius:var(--r);
+  background:linear-gradient(160deg,rgba(34,211,238,.06),rgba(129,140,248,.04));padding:1.3rem 1.25rem}
+.foresla .seksjon{margin:0 0 .3rem}
+#k-skjema{display:grid;gap:.6rem}
+#k-skjema input,#k-skjema textarea,#k-skjema select{font:inherit;font-size:.95rem;color:#fff;
+  background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:.65rem .8rem;width:100%}
+#k-skjema input::placeholder,#k-skjema textarea::placeholder{color:var(--dim)}
+#k-skjema input:focus,#k-skjema textarea:focus,#k-skjema select:focus{outline:none;border-color:var(--acc);
+  box-shadow:0 0 0 3px rgba(34,211,238,.15)}
+.k-rad{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media(max-width:560px){.k-rad{grid-template-columns:1fr}}
+.k-send{font:inherit;font-weight:600;color:#04212b;cursor:pointer;justify-self:start;
+  background:linear-gradient(180deg,#67e8f9,#22d3ee);border:none;border-radius:12px;padding:.65rem 1.2rem;
+  transition:transform .15s,box-shadow .15s}
+.k-send:hover{transform:translateY(-1px);box-shadow:0 12px 24px -12px rgba(34,211,238,.8)}
+.k-melding{font-size:.9rem;margin:0}
+.k-melding.ok{color:var(--acc-lys)}
+.k-melding.feil{color:#ff8f6b}
 </style>
 </head>
 <body>
@@ -210,12 +230,31 @@ mark{background:rgba(34,211,238,.25);color:var(--acc-lys);border-radius:4px;padd
   fortløpende – finans, bil og reise, livsstil og helse, og praktisk hverdag.
 </div>
 
+<section class="foresla" aria-labelledby="koresla-h">
+  <h2 class="seksjon" id="koresla-h">🧮 Foreslå en kalkulator</h2>
+  <p class="ml-sub">Mangler et regnestykke? Fyll ut – forslaget sendes til oss via GitHub, og vi bygger den inn etter sjekk.</p>
+  <form id="k-skjema" autocomplete="off">
+    <input type="text" id="k-tittel" placeholder="Navn på kalkulatoren * (f.eks. «Dekk-kostnad»)" maxlength="80" required>
+    <textarea id="k-beskr" placeholder="Beskrivelse * – hva skal den regne ut, og hvem har bruk for den?" rows="3" required></textarea>
+    <select id="k-kat"><option value="finans">💰 Finans</option>
+<option value="bil">🚗 Bil & reise</option>
+<option value="livsstil">💪 Livsstil & helse</option>
+<option value="hverdag">📅 Hverdag</option></select>
+    <div class="k-rad">
+      <input type="text" id="k-navn" placeholder="Ditt navn (valgfritt)" maxlength="40">
+      <input type="email" id="k-epost" placeholder="E-post (valgfritt, for svar)" maxlength="60">
+    </div>
+    <button type="submit" class="k-send">Send inn</button>
+    <p class="k-melding" id="k-melding" hidden></p>
+  </form>
+</section>
+
 
 <div class="site-footer">
   <div class="foot-grid">
     <div class="brand-col">
       <div class="logo">Smartkalkulator</div>
-      <p>Gratis, oppdatert hver dag. Aldri glipp en frist eller et regnestykke igjen.</p>
+      <p>Gratis, oppdatert hver dag. Aldri glipp et regnestykke igjen.</p>
     </div>
     <div class="foot-col"><div class="foot-h">Utforsk</div><a href="verktoy/alder/">Alderskalkulator</a>
 <a href="verktoy/bmikalkulator/">BMI-kalkulator</a>
@@ -299,5 +338,29 @@ mark{background:rgba(34,211,238,.25);color:var(--acc-lys);border-radius:4px;padd
     });
   }
 })();
+
+/* ---------- Foreslå kalkulator -> GitHub issue ---------- */
+(function(){
+  var skjema=document.getElementById('k-skjema');if(!skjema)return;
+  var melding=document.getElementById('k-melding');
+  function visM(t,ok){melding.hidden=false;melding.textContent=t;melding.className='k-melding'+(ok?' ok':' feil');}
+  skjema.addEventListener('submit',function(e){
+    e.preventDefault();
+    var tittel=document.getElementById('k-tittel').value.trim();
+    var beskr=document.getElementById('k-beskr').value.trim();
+    var kat=document.getElementById('k-kat');
+    var katTxt=kat.options[kat.selectedIndex].text;
+    var navn=document.getElementById('k-navn').value.trim();
+    var epost=document.getElementById('k-epost').value.trim();
+    if(!tittel||!beskr){visM('Fyll ut navn på kalkulatoren og beskrivelse.',false);return;}
+    var body='**Kategori:** '+katTxt+'\n\n**Beskrivelse:**\n'+beskr+'\n\n**Innsendt av:** '+(navn||'anonym')+(epost?' ('+epost+')':'');
+
+    var url='https://github.com/arneshodzic/seo-verktoy/issues/new?title='+
+      encodeURIComponent('[Forslag] '+tittel)+'&body='+encodeURIComponent(body);
+    visM('Åpner GitHub – trykk «Submit new issue» der …',true);
+    window.open(url,'_blank','noopener');
+  });
+})();
+
 </script>
 </body></html>
